@@ -29,5 +29,17 @@ out vec2 uv;
 
 void main() 
 {
-    gl_Position = vec4(0, 0, 0, 1);
+    vertPositionWorld = (modelMatrix * vec4(position, 1)).xyz;
+
+    //vector in homogenous coords is x, y, z, 0
+    vertNormalWorld = normalize((normalMatrix * vec4(normal, 0)).xyz);
+
+    // output the vertex
+    vertColor = color;
+
+    // output the texture coordinate to the fragement shader
+    uv = texCoord.xy;
+
+    // compute the 2D screen coordinates position
+    gl_Position = projectionMatrix * viewMatrix * vec4(vertPositionWorld, 1);
 }
