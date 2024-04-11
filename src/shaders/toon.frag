@@ -66,7 +66,7 @@ void main()
         }
 
         //Diffuse component
-        float diffuseComponent = max(dot(n, l), 0.0);
+        float diffuseComponent = 0.5 * max(dot(n, l), 0.0) + 0.5;// transform the range from [-1,1] to [0,1]
         vec4 toonDiffuse = texture(diffuseRamp, vec2(diffuseComponent, 0.5));
         illumination += kDiffuse * diffuseIntensities[i] * toonDiffuse.rgb;
 
@@ -78,8 +78,8 @@ void main()
 
         //Specular component
         float specularComponent = pow(max(dot(h, n), 0.0), shininess);
-        vec4 toonSpecular = texture(specularRamp, vec2(specularComponent, 0.5));
-        illumination += kDiffuse * diffuseIntensities[i] * toonSpecular.rgb;
+        vec4 toonSpecular = texture(specularRamp, vec2(specularComponent));
+        illumination += kDiffuse * specularIntensities[i] * toonSpecular.rgb;
     }
 
     fragColor = vertColor;
