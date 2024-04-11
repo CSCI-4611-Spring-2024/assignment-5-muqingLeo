@@ -29,5 +29,12 @@ out vec2 uv;
 
 void main() 
 {
-    gl_Position = vec4(0, 0, 0, 1);
+    vertPositionWorld = (modelMatrix * vec4(position, 1)).xyz;
+
+    vertNormalWorld = normalize((normalMatrix * vec4(normal, 0)).xyz);
+
+    vertColor = color;
+    uv = texCoord;
+
+    gl_Position = projectionMatrix * viewMatrix * vec4(vertPositionWorld, 1);
 }

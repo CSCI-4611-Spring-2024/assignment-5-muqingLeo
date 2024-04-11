@@ -28,18 +28,25 @@ in vec3 normal;
 void main() 
 {
     // First, you will need compute both the position and normal in world space,
+    vec3 worldPosition = (modelMatrix * vec4(position, 1)).xyz;
+    vec3 worldNormal = normalize((normalMatrix * vec4(normal, 0)).xyz);
+
     // then convert them into view space.
+    vec3 viewPosition = (viewMatrix * vec4(worldPosition, 1)).xyz;
+    vec3 viewNormal = normalize((viewMatrix * vec4(worldNormal, 0)).xyz);
 
     // Next, you should set the z-component of the view space normal to zero
     // and then normalize it. This represents the direction outward from the
     // vertex in XY coordinates relative to the camera.
-    
+    vec3 viewSpaceNormal = normalize(vec3(viewNormal.xy, 0.0));
+
     // The view space vertex position should then be translated in this direction
     // by correct distance, which is the thickness of the silhouette online.
+    vec3 viewSpacePosition = viewPosition + viewSpaceNormal * thickness;
 
     // Finally, you should project this position into screen coordinates and
     // assign it to the gl_Position variable, which will be passed to the 
     // fragment shader.
 
-    gl_Position = vec4(0, 0, 0, 1);
+    gl_Position = projectionMatrix * vec4(viewSpacePosition, 1.0);
 }

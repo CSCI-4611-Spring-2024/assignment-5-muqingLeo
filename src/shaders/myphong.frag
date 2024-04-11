@@ -76,7 +76,7 @@ void main()
 
         //Specular component
         float specularComponent = pow(max(dot(h, n), 0.0), shininess);
-        illumination += specularComponent * kDiffuse * diffuseIntensities[i];
+        illumination += specularComponent * kSpecular * specularIntensities[i];
     }
     fragColor = vertColor;
     fragColor.rgb *= illumination;
