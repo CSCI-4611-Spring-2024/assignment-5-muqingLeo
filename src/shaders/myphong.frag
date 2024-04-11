@@ -46,6 +46,9 @@ out vec4 fragColor;
 
 void main() 
 {
+    // normalize the interploated normal vector
+    vec3 n = normalize(vertNormalWorld);
+
     // light calculations 
     vec3 illumination = vec3(0, 0, 0);
     for(int i = 0; i < numLights; i ++) {
@@ -62,7 +65,7 @@ void main()
         }
 
         //Diffuse component
-        float diffuseComponent = max(dot(vertNormalWorld, l), 0.0);
+        float diffuseComponent = max(dot(n, l), 0.0);
         illumination += diffuseComponent * kDiffuse * diffuseIntensities[i];
 
         //Compute the vector from the vertex to the eye
@@ -72,7 +75,7 @@ void main()
         vec3 h = normalize(l + e);
 
         //Specular component
-        float specularComponent = pow(max(dot(h, vertNormalWorld), 0.0), shininess);
+        float specularComponent = pow(max(dot(h, n), 0.0), shininess);
         illumination += specularComponent * kDiffuse * diffuseIntensities[i];
     }
     fragColor = vertColor;
