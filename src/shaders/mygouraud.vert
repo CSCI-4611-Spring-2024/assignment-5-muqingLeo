@@ -67,14 +67,14 @@ void main()
             l = normalize(lightPositionsWorld[i]);
         }
 
-        //Diffuse component
+        // Diffuse component
         float diffuseComponent = max(dot(worldNormal, l), 0.0);
         illumination += diffuseComponent * kDiffuse * diffuseIntensities[i];
 
-        //Compute the vector from the vertex to the eye
+        // Compute the vector from the vertex to the eye
         vec3 e = normalize(eyePositionWorld - worldPosition);
 
-        //Compute the halfway vector for the Blinn-Phong reflection model
+        // Compute the halfway vector for the Blinn-Phong reflection model
         vec3 h = normalize(l + e);
 
         //Specular component

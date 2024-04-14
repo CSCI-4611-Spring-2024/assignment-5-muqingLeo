@@ -31,7 +31,7 @@ void main()
 {
     vertPositionWorld = (modelMatrix * vec4(position, 1)).xyz;
 
-    //vector in homogenous coords is x, y, z, 0
+    // vector in homogenous coords is x, y, z, 0
     vertNormalWorld = normalize((normalMatrix * vec4(normal, 0)).xyz);
 
     // output the vertex
